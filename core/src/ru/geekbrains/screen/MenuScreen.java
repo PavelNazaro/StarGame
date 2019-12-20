@@ -39,7 +39,7 @@ public class MenuScreen extends BaseScreen {
         batch.draw(background, 0, 0);
         batch.draw(img, pos.x, pos.y);
         batch.end();
-        
+
         buf.set(touch);
         if ((buf.sub(pos)).len() > V_LEN) {
             pos.add(v);
@@ -59,6 +59,23 @@ public class MenuScreen extends BaseScreen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         touch.set(screenX, Gdx.graphics.getHeight() - screenY);
         v.set(touch.cpy().sub(pos)).setLength(V_LEN);
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == 21 || keycode == 29){
+            pos.set(pos.x - 10,pos.y);
+        }
+        if (keycode == 20 || keycode == 47){
+            pos.set(pos.x,pos.y - 10);
+        }
+        if (keycode == 19 || keycode == 51){
+            pos.set(pos.x,pos.y + 10);
+        }
+        if (keycode == 22 || keycode == 32){
+            pos.set(pos.x + 10,pos.y);
+        }
         return false;
     }
 }
