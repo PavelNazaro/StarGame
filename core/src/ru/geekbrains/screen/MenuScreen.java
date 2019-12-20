@@ -9,10 +9,14 @@ import ru.geekbrains.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
+    private static final float V_LEN = 1.5f;
+
     private Texture img;
     private Texture background;
     private Vector2 pos;
     private Vector2 v;
+    private Vector2 touch;
+    private Vector2 buf;
 
     @Override
     public void show() {
@@ -20,7 +24,9 @@ public class MenuScreen extends BaseScreen {
         background = new Texture("textures/bg.png");
         img = new Texture("badlogic.jpg");
         pos = new Vector2();
-        v = new Vector2(0.5f, 0.5f);
+        v = new Vector2();
+        touch = new Vector2();
+        buf = new Vector2();
     }
 
     @Override
@@ -33,7 +39,13 @@ public class MenuScreen extends BaseScreen {
         batch.draw(background, 0, 0);
         batch.draw(img, pos.x, pos.y);
         batch.end();
-        pos.add(v);
+        
+        buf.set(touch);
+        if ((buf.sub(pos)).len() > V_LEN) {
+            pos.add(v);
+        } else {
+            pos.set(touch);
+        }
     }
 
     @Override
@@ -45,7 +57,8 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
+        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v.set(touch.cpy().sub(pos)).setLength(V_LEN);
         return false;
     }
 }
