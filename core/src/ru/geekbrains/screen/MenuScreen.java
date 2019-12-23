@@ -3,24 +3,28 @@ package ru.geekbrains.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.BaseScreen;
+import ru.geekbrains.math.Rect;
+import ru.geekbrains.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
-    private Texture background;
+    private Texture bg;
     private Vector2 pos;
-    private Vector2 v;
+
+    private Background background;
 
     @Override
     public void show() {
         super.show();
-        background = new Texture("textures/bg.png");
+        bg = new Texture("textures/bg.png");
+        background = new Background(new TextureRegion(bg));
         img = new Texture("badlogic.jpg");
         pos = new Vector2();
-        v = new Vector2(0.5f, 0.5f);
     }
 
     @Override
@@ -30,22 +34,26 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(background, 0, 0);
-        batch.draw(img, pos.x, pos.y);
+        background.draw(batch);
+        batch.draw(img, pos.x, pos.y, 0.5f, 0.5f);
         batch.end();
-        pos.add(v);
     }
 
     @Override
     public void dispose() {
         img.dispose();
-        background.dispose();
+        bg.dispose();
         super.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return false;
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        return super.touchDown(touch, pointer, button);
     }
 }
