@@ -9,14 +9,15 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.sprite.Background;
+import ru.geekbrains.sprite.Logo;
 
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
     private Texture bg;
-    private Vector2 pos;
 
     private Background background;
+    private Logo logo;
 
     @Override
     public void show() {
@@ -24,19 +25,14 @@ public class MenuScreen extends BaseScreen {
         bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
         img = new Texture("badlogic.jpg");
-        pos = new Vector2();
+        logo = new Logo(new TextureRegion(img));
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        Gdx.gl.glClearColor(0.2f, 	0.6f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        background.draw(batch);
-        batch.draw(img, pos.x, pos.y, 0.5f, 0.5f);
-        batch.end();
+        update(delta);
+        draw();
     }
 
     @Override
@@ -50,10 +46,27 @@ public class MenuScreen extends BaseScreen {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
+        logo.resize(worldBounds);
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        return super.touchDown(touch, pointer, button);
+        logo.touchDown(touch,pointer,button);
+        return false;
+    }
+
+    private void update(float delta){
+        logo.update(delta);
+    }
+
+    private void draw(){
+        Gdx.gl.glClearColor(0.2f, 	0.6f, 0.5f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.graphics.setWindowedMode(400, 600);
+
+        batch.begin();
+        background.draw(batch);
+        logo.draw(batch);
+        batch.end();
     }
 }
