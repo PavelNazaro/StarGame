@@ -60,7 +60,6 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public void resize(Rect worldBounds) {
         System.out.println("resize worldBounds width = " + worldBounds.getWidth() + " height = " + worldBounds.getHeight());
-
     }
 
     @Override
