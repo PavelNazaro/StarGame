@@ -9,10 +9,15 @@ import ru.geekbrains.utils.Regions;
 
 public class Sprite extends Rect {
 
+    private boolean destroyed;
     protected float angle;
     protected float scale = 1f;
     protected TextureRegion[] regions;
     protected int frame;
+
+    public Sprite() {
+
+    }
 
     public Sprite(TextureRegion region) {
         if (region == null) {
@@ -77,5 +82,17 @@ public class Sprite extends Rect {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void destroy() {
+        this.destroyed = true;
+    }
+
+    public void flushDestroy() {
+        this.destroyed = false;
     }
 }

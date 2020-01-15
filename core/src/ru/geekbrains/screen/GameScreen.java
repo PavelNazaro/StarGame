@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.math.Rect;
+import ru.geekbrains.pool.BulletPool;
 import ru.geekbrains.sprite.Background;
 import ru.geekbrains.sprite.MainShip;
 import ru.geekbrains.sprite.Star;
@@ -23,6 +24,8 @@ public class GameScreen extends BaseScreen {
 
     private MainShip mainShip;
 
+    private BulletPool bulletPool;
+
     @Override
     public void show() {
         super.show();
@@ -33,13 +36,15 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
-        mainShip = new MainShip(atlas);
+        bulletPool = new BulletPool();
+        mainShip = new MainShip(atlas, bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -57,6 +62,7 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         atlas.dispose();
         bg.dispose();
+        bulletPool.dispose();
         super.dispose();
     }
 
@@ -89,6 +95,11 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
+    }
+
+    private void freeAllDestroyed(){
+        bulletPool.freeAllDestroyedActiveObjects();
     }
 
     private void draw() {
@@ -103,6 +114,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
     }
 }

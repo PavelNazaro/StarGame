@@ -2,14 +2,22 @@ package ru.geekbrains.sprite;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.Sprite;
 import ru.geekbrains.math.Rect;
+import ru.geekbrains.pool.BulletPool;
 
 public class MainShip extends Sprite {
 
     private static final int INVALID_POINTER = -1;
+
+    private BulletPool bulletPool;
+    private TextureRegion bulletRegion;
+    private float bulletHeight;
+    private Vector2 bulletV;
+    private int damage;
 
     private Vector2 v;
     private Vector2 v0;
@@ -22,8 +30,13 @@ public class MainShip extends Sprite {
 
     private Rect worldBounds;
 
-    public MainShip(TextureAtlas atlas) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1 , 2 , 2);
+        this.bulletPool = bulletPool;
+        bulletRegion = atlas.findRegion("bulletMainShip");
+        bulletHeight = 0.01f;
+        bulletV = new Vector2(0, 0.5f);
+        damage = 1;
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
     }
@@ -100,7 +113,7 @@ public class MainShip extends Sprite {
                 pressedLeft = true;
                 break;
             case Input.Keys.UP:
-                frame = 1;
+                shoot();
                 break;
         }
         return false;
@@ -126,9 +139,6 @@ public class MainShip extends Sprite {
                     stop();
                 }
                 break;
-            case Input.Keys.UP:
-                frame = 0;
-                break;
         }
         return false;
     }
@@ -143,5 +153,10 @@ public class MainShip extends Sprite {
 
     private void stop(){
         v.setZero();
+    }
+
+    private void shoot(){
+        Bullet bullet = bulletPool.obtain();
+        bullet.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, damage);
     }
 }
