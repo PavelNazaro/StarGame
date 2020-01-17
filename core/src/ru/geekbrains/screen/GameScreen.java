@@ -16,6 +16,7 @@ import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
 import ru.geekbrains.pool.EnemyPool;
 import ru.geekbrains.sprite.Background;
+import ru.geekbrains.sprite.Bullet;
 import ru.geekbrains.sprite.EnemyShip;
 import ru.geekbrains.sprite.MainShip;
 import ru.geekbrains.sprite.Star;
@@ -131,6 +132,19 @@ public class GameScreen extends BaseScreen {
         for (EnemyShip enemyShip : enemyShipList){
             if (!enemyShip.isOutside(mainShip)){
                 enemyShip.destroy();
+                mainShip.damage(enemyShip.getDamage());
+            }
+        }
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
+        for (Bullet bullet : bulletList){
+            if (bullet.getOwner() != mainShip || bullet.isDestroyed()){
+                continue;
+            }
+            for (EnemyShip enemyShip : enemyShipList){
+                if (!bullet.isOutside(enemyShip)){
+                    enemyShip.damage(bullet.getDamage());
+                    bullet.destroy();
+                }
             }
         }
     }

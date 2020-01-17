@@ -32,13 +32,25 @@ public class Ship extends Sprite {
         super();
     }
 
+    public Ship(TextureRegion region, int rows, int cols, int frames) {
+        super(region, rows, cols, frames);
+    }
+
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
     }
 
-    public Ship(TextureRegion region, int rows, int cols, int frames) {
-        super(region, rows, cols, frames);
+    public void damage(int damage){
+        hp -= damage;
+        if (hp <= 0){
+            destroy();
+            hp = 0;
+        }
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     protected void shoot(){
