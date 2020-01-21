@@ -18,8 +18,10 @@ import ru.geekbrains.pool.EnemyPool;
 import ru.geekbrains.pool.ExplosionPool;
 import ru.geekbrains.sprite.Background;
 import ru.geekbrains.sprite.Bullet;
+import ru.geekbrains.sprite.ButtonNewGame;
 import ru.geekbrains.sprite.EnemyShip;
 import ru.geekbrains.sprite.MainShip;
+import ru.geekbrains.sprite.MessageGameOver;
 import ru.geekbrains.sprite.Star;
 import ru.geekbrains.utils.EnemyGenerator;
 
@@ -48,6 +50,9 @@ public class GameScreen extends BaseScreen {
 
     private State state;
 
+    private MessageGameOver messageGameOver;
+    private ButtonNewGame buttonNewGame;
+
     @Override
     public void show() {
         super.show();
@@ -67,6 +72,8 @@ public class GameScreen extends BaseScreen {
         enemyPool = new EnemyPool(bulletPool, explosionPool, bulletSound, worldBounds);
         mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
         enemyGenerator = new EnemyGenerator(atlas, enemyPool, worldBounds);
+        messageGameOver = new MessageGameOver(atlas);
+        buttonNewGame = new ButtonNewGame(atlas, this);
         music.setLooping(true);
         music.play();
         state = State.PLAYING;
@@ -89,6 +96,8 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         mainShip.resize(worldBounds);
+        messageGameOver.resize(worldBounds);
+        buttonNewGame.resize(worldBounds);
     }
 
     @Override
@@ -109,6 +118,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING){
             mainShip.touchDown(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchDown(touch, pointer, button);
         }
         return false;
     }
@@ -117,6 +128,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING){
             mainShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchUp(touch, pointer, button);
         }
         return false;
     }
@@ -135,6 +148,16 @@ public class GameScreen extends BaseScreen {
             mainShip.keyUp(keycode);
         }
         return false;
+    }
+
+    public void startNewGame(){
+
+        state = State.PLAYING;
+        mainShip.startNewGame();
+
+        bulletPool.freeAllActiveObjects();
+        explosionPool.freeAllActiveObjects();
+        enemyPool.freeAllActiveObjects();
     }
 
     private void update(float delta) {
@@ -208,6 +231,9 @@ public class GameScreen extends BaseScreen {
             mainShip.draw(batch);
             bulletPool.drawActiveSprites(batch);
             enemyPool.drawActiveSprites(batch);
+        } else if (state == State.GAME_OVER){
+            messageGameOver.draw(batch);
+            buttonNewGame.draw(batch);
         }
         batch.end();
     }
