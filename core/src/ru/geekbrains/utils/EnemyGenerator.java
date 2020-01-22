@@ -47,6 +47,8 @@ public class EnemyGenerator {
     private EnemyPool enemyPool;
     private Rect worldBounds;
 
+    private int level = 1;
+
     public EnemyGenerator(TextureAtlas atlas, EnemyPool enemyPool, Rect worldBounds) {
         TextureRegion enemy0 = atlas.findRegion("enemy0");
         TextureRegion enemy1 = atlas.findRegion("enemy1");
@@ -60,7 +62,8 @@ public class EnemyGenerator {
         this.worldBounds = worldBounds;
     }
 
-    public void generate(float delta){
+    public void generate(float delta, int frags){
+        level = frags / 15 + 1;
         generateTimer += delta;
         if (generateTimer > generateInterval){
             generateTimer = 0f;
@@ -74,7 +77,7 @@ public class EnemyGenerator {
                         bulletRegion,
                         ENEMY_SMALL_BULLET_HEIGHT,
                         ENEMY_SMALL_BULLET_VY,
-                        ENEMY_SMALL_DAMAGE,
+                        ENEMY_SMALL_DAMAGE * level,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HP,
                         ENEMY_SMALL_HEIGHT
@@ -86,7 +89,7 @@ public class EnemyGenerator {
                         bulletRegion,
                         ENEMY_MEDIUM_BULLET_HEIGHT,
                         ENEMY_MEDIUM_BULLET_VY,
-                        ENEMY_MEDIUM_DAMAGE,
+                        ENEMY_MEDIUM_DAMAGE * level,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HP,
                         ENEMY_MEDIUM_HEIGHT
@@ -98,7 +101,7 @@ public class EnemyGenerator {
                         bulletRegion,
                         ENEMY_BIG_BULLET_HEIGHT,
                         ENEMY_BIG_BULLET_VY,
-                        ENEMY_BIG_DAMAGE,
+                        ENEMY_BIG_DAMAGE * level,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HP,
                         ENEMY_BIG_HEIGHT
@@ -110,5 +113,13 @@ public class EnemyGenerator {
             );
             enemyShip.setBottom(worldBounds.getTop());
         }
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
