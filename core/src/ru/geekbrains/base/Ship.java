@@ -21,6 +21,7 @@ public class Ship extends Sprite {
     protected float bulletHeight;
     protected Vector2 bulletV;
     protected int damage;
+    protected int score;
 
     protected Sound shootSound;
 
@@ -63,6 +64,10 @@ public class Ship extends Sprite {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public Vector2 getV() {

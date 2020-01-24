@@ -1,0 +1,33 @@
+
+buttonsAtlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btPause
+  rotate: false
+  xy: 1, 652
+  size: 1000, 400
+  orig: 1000, 400
+  offset: 0, 0
+  index: -1
+btNewGame
+  rotate: false
+  xy: 1, 435
+  size: 1000, 215
+  orig: 1000, 215
+  offset: 0, 0
+  index: -1
+btResume
+  rotate: false
+  xy: 1, 218
+  size: 740, 215
+  orig: 740, 215
+  offset: 0, 0
+  index: -1
+btExit
+  rotate: false
+  xy: 1, 1
+  size: 360, 215
+  orig: 360, 215
+  offset: 0, 0
+  index: -1

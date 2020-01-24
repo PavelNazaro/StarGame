@@ -59,6 +59,7 @@ public class EnemyShip extends Ship {
             float bulletHeight,
             float bulletVY,
             int damage,
+            int score,
             float reloadInterval,
             int hp,
             float height
@@ -69,6 +70,7 @@ public class EnemyShip extends Ship {
         this.bulletHeight = bulletHeight;
         this.bulletV.set(0, bulletVY);
         this.damage = damage;
+        this.score = score;
         this.reloadInterval = reloadInterval;
         this.reloadTimer = reloadInterval;
         this.hp = hp;

@@ -76,38 +76,42 @@ public class MainShip extends Ship {
     }
 
     @Override
-    public boolean touchDown(Vector2 touch, int pointer, int button) {
-        if (touch.x < worldBounds.pos.x){
-            if (leftPointer != INVALID_POINTER){
-                return false;
+    public boolean touchDown(Vector2 touch, int pointer, int button, int screenY) {
+        if (screenY > 50) {
+            if (touch.x < worldBounds.pos.x) {
+                if (leftPointer != INVALID_POINTER) {
+                    return false;
+                }
+                leftPointer = pointer;
+                moveLeft();
+            } else {
+                if (rightPointer != INVALID_POINTER) {
+                    return false;
+                }
+                rightPointer = pointer;
+                moveRight();
             }
-            leftPointer = pointer;
-            moveLeft();
-        } else {
-            if (rightPointer != INVALID_POINTER){
-                return false;
-            }
-            rightPointer = pointer;
-            moveRight();
         }
         return false;
     }
 
     @Override
-    public boolean touchUp(Vector2 touch, int pointer, int button) {
-        if (pointer == leftPointer){
-            leftPointer = INVALID_POINTER;
-            if (rightPointer != INVALID_POINTER){
-                moveRight();
-            } else {
-                stop();
-            }
-        } else if (pointer == rightPointer){
-            rightPointer = INVALID_POINTER;
-            if (leftPointer != INVALID_POINTER){
-                moveLeft();
-            } else {
-                stop();
+    public boolean touchUp(Vector2 touch, int pointer, int button, int screenY) {
+        if (screenY > 50) {
+            if (pointer == leftPointer) {
+                leftPointer = INVALID_POINTER;
+                if (rightPointer != INVALID_POINTER) {
+                    moveRight();
+                } else {
+                    stop();
+                }
+            } else if (pointer == rightPointer) {
+                rightPointer = INVALID_POINTER;
+                if (leftPointer != INVALID_POINTER) {
+                    moveLeft();
+                } else {
+                    stop();
+                }
             }
         }
         return false;

@@ -15,6 +15,7 @@ public class EnemyGenerator {
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
     private static final int ENEMY_SMALL_DAMAGE = 1;
+    private static final int ENEMY_SMALL_SCORE = 1;
     private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
     private static final int ENEMY_SMALL_HP = 1;
 
@@ -22,6 +23,7 @@ public class EnemyGenerator {
     private static final float ENEMY_MEDIUM_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MEDIUM_BULLET_VY = -0.25f;
     private static final int ENEMY_MEDIUM_DAMAGE = 5;
+    private static final int ENEMY_MEDIUM_SCORE = 5;
     private static final float ENEMY_MEDIUM_RELOAD_INTERVAL = 4f;
     private static final int ENEMY_MEDIUM_HP = 5;
 
@@ -29,6 +31,7 @@ public class EnemyGenerator {
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
     private static final float ENEMY_BIG_BULLET_VY = -0.3f;
     private static final int ENEMY_BIG_DAMAGE = 10;
+    private static final int ENEMY_BIG_SCORE = 10;
     private static final float ENEMY_BIG_RELOAD_INTERVAL = 1f;
     private static final int ENEMY_BIG_HP = 10;
 
@@ -62,8 +65,8 @@ public class EnemyGenerator {
         this.worldBounds = worldBounds;
     }
 
-    public void generate(float delta, int frags){
-        level = frags / 15 + 1;
+    public void generate(float delta, int score){
+        level = score / 50 + 1;
         generateTimer += delta;
         if (generateTimer > generateInterval){
             generateTimer = 0f;
@@ -78,6 +81,7 @@ public class EnemyGenerator {
                         ENEMY_SMALL_BULLET_HEIGHT,
                         ENEMY_SMALL_BULLET_VY,
                         ENEMY_SMALL_DAMAGE * level,
+                        ENEMY_SMALL_SCORE,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HP,
                         ENEMY_SMALL_HEIGHT
@@ -90,6 +94,7 @@ public class EnemyGenerator {
                         ENEMY_MEDIUM_BULLET_HEIGHT,
                         ENEMY_MEDIUM_BULLET_VY,
                         ENEMY_MEDIUM_DAMAGE * level,
+                        ENEMY_MEDIUM_SCORE,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HP,
                         ENEMY_MEDIUM_HEIGHT
@@ -102,6 +107,7 @@ public class EnemyGenerator {
                         ENEMY_BIG_BULLET_HEIGHT,
                         ENEMY_BIG_BULLET_VY,
                         ENEMY_BIG_DAMAGE * level,
+                        ENEMY_BIG_SCORE,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HP,
                         ENEMY_BIG_HEIGHT

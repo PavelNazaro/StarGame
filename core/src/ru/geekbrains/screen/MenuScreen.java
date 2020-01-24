@@ -71,16 +71,16 @@ public class MenuScreen extends BaseScreen {
     }
 
     @Override
-    public boolean touchDown(Vector2 touch, int pointer, int button) {
-        buttonExit.touchDown(touch, pointer, button);
-        buttonPlay.touchDown(touch, pointer, button);
+    public boolean touchDown(Vector2 touch, int pointer, int button, int screenY) {
+        buttonExit.touchDown(touch, pointer, button, screenY);
+        buttonPlay.touchDown(touch, pointer, button, screenY);
         return false;
     }
 
     @Override
-    public boolean touchUp(Vector2 touch, int pointer, int button) {
-        buttonExit.touchUp(touch, pointer, button);
-        buttonPlay.touchUp(touch, pointer, button);
+    public boolean touchUp(Vector2 touch, int pointer, int button, int screenY) {
+        buttonExit.touchUp(touch, pointer, button, screenY);
+        buttonPlay.touchUp(touch, pointer, button, screenY);
         return false;
     }
 

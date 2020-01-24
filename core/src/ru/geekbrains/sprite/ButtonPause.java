@@ -6,15 +6,14 @@ import ru.geekbrains.base.ScaledButton;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.screen.GameScreen;
 
-public class ButtonNewGame extends ScaledButton {
+public class ButtonPause extends ScaledButton {
 
-    private static final float HEIGHT = 0.1f;
-    private static final float TOP = -0.07f;
+    private static final float HEIGHT = 0.06f;
 
     private GameScreen gameScreen;
 
-    public ButtonNewGame(TextureAtlas atlas, GameScreen gameScreen) {
-        super(atlas.findRegion("btNewGame"));
+    public ButtonPause(TextureAtlas atlas, GameScreen gameScreen) {
+        super(atlas.findRegion("btPause"));
         this.gameScreen = gameScreen;
     }
 
@@ -22,11 +21,12 @@ public class ButtonNewGame extends ScaledButton {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-        setTop(TOP);
+        setTop(worldBounds.getTop() - 0.01f);
+        setRight(worldBounds.getRight() - 0.01f);
     }
 
     @Override
     public void action() {
-        gameScreen.startNewGame();
+        gameScreen.setPauseOn();
     }
 }
